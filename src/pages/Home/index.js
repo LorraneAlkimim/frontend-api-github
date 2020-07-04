@@ -26,7 +26,18 @@ export default function Home() {
     setRepos(response.data);
   }
 
-  async function handleFavorite() {
+  function handleFavorite(url) {
+    let fav = [];
+
+    if(localStorage.favorites) {
+      let aux = localStorage.favorites;
+
+      fav.push(aux);
+      fav.push(url);
+    } else {
+      fav.push(url)
+    }
+    localStorage.setItem('favorites', [fav]);
     alert("Repositório adicionado aos favoritos com sucesso!");
   }
 
@@ -67,7 +78,7 @@ export default function Home() {
                 </a>
                 <p>{repo.description}</p>
 
-                <div className="star" onClick={() => handleFavorite()}>
+                <div className="star" onClick={() => handleFavorite(repo.url)}>
                   <FaStar size={18} />
                   <p>Favoritar</p>
                 </div>
@@ -106,4 +117,3 @@ export default function Home() {
     </>
   );
 }
-

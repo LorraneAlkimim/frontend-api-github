@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-import { FiSearch, FiArrowLeft} from 'react-icons/fi';
+import { FiArrowLeft} from 'react-icons/fi';
 import {
   FaExclamationCircle,
   FaCodeBranch,
@@ -9,16 +9,37 @@ import {
   FaStar
 } from 'react-icons/fa';
 
+import axios from 'axios';
+
 import Figure from '../../assets/figure_02.svg';
 
 import '../styles.css';
 import '../repositories.css';
 
-import api from '../../services/api';
-
 
 export default function Favorites() {
   const [repos, setRepos] = useState();
+
+  async function teste(fav) {
+    let aux = [];
+   
+    const response = await axios.get(fav);
+    aux.push(response.data);
+    setRepos(aux);
+    console.log(aux);
+  }
+
+  function handleRepositories(fav) {
+  
+    fav.map(url => teste(url));
+
+ 
+  }
+
+  useEffect(() => {
+    let aux = localStorage.favorites.split(',');
+    handleRepositories(aux);
+  }, []);
 
   return (
     <>
@@ -32,7 +53,7 @@ export default function Favorites() {
       <main>
         {repos ?
           <>
-            <p className="username">Repositórios de <b>{repos[0].owner.login}</b></p>
+            <p className="username">Repositórios favoritos:</p>
             {repos.map(repo => (
               <div key={repo.id} className="repo-container">
                 <h1>{repo.name}</h1>
