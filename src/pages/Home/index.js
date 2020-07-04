@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { FiSearch} from 'react-icons/fi';
+import { FiSearch } from 'react-icons/fi';
 import {
   FaExclamationCircle,
   FaCodeBranch,
@@ -18,12 +18,16 @@ import api from '../../services/api';
 
 
 export default function Home() {
-  const [search, setSearch] = useState();
+  const [search, setSearch] = useState('letuai');
   const [repos, setRepos] = useState();
 
-  async function handleSearch(){
+  async function handleSearch() {
     const response = await api.get(`${search}/repos`);
     setRepos(response.data);
+  }
+
+  async function handleFavorite() {
+    alert("Repositório adicionado aos favoritos com sucesso!");
   }
 
   return (
@@ -37,8 +41,8 @@ export default function Home() {
             type="search"
             name="search"
             placeholder="Procurar..."
-            
             onChange={event => setSearch(event.target.value)}
+            value={search}
           />
           <div
             className="search-button"
@@ -58,9 +62,16 @@ export default function Home() {
             <p className="username">Repositórios de <b>{repos[0].owner.login}</b></p>
             {repos.map(repo => (
               <div key={repo.id} className="repo-container">
-                <h1>{repo.name}</h1>
+                <a href={repo.html_url} target="_blank">
+                  <h1>{repo.name}</h1>
+                </a>
                 <p>{repo.description}</p>
-          
+
+                <div className="star" onClick={() => handleFavorite()}>
+                  <FaStar size={18} />
+                  <p>Favoritar</p>
+                </div>
+
                 <div className="repo-infos">
                   <div>
                     <FaCircle size={16} color="#767D9F" />
@@ -85,9 +96,9 @@ export default function Home() {
               </div>
             ))}
           </>
-        : 
+          :
           <div className="initial-screen">
-            <img src={Figure} alt="Figure"/>
+            <img src={Figure} alt="Figure" />
             <h1>Busque por um usuário para ver seus repositórios</h1>
           </div>
         }

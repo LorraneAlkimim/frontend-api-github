@@ -9,7 +9,7 @@ import {
   FaStar
 } from 'react-icons/fa';
 
-import Figure from '../../assets/figure.svg';
+import Figure from '../../assets/figure_02.svg';
 
 import '../styles.css';
 import '../repositories.css';
@@ -27,22 +27,6 @@ export default function Favorites() {
           <FiArrowLeft color="#eee" size={20} />
           <p>Home</p>
         </Link>
-        <div className="search-box">
-          <input
-            type="search"
-            name="search"
-            placeholder="Procurar..."
-            
-          />
-          <div
-            className="search-button"
-          >
-            <FiSearch
-              color="#eee"
-              size={20}
-            />
-          </div>
-        </div>
       </header>
 
       <main>
